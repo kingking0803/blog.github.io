@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>kingking&#39;s blog</title>
+  
+  
+  <link href="/blog.github.io/atom.xml" rel="self"/>
+  
+  <link href="https://kingking0803.github.io/"/>
+  <updated>2018-03-28T03:28:56.885Z</updated>
+  <id>https://kingking0803.github.io/</id>
+  
+  <author>
+    <name>kingking</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Dubbo分布式服务框架解析</title>
+    <link href="https://kingking0803.github.io/2018/03/27/dubbo%E7%9F%A5%E8%AF%86%E7%82%B9/"/>
+    <id>https://kingking0803.github.io/2018/03/27/dubbo知识点/</id>
+    <published>2018-03-27T08:49:44.000Z</published>
+    <updated>2018-03-28T03:28:56.885Z</updated>
+    
+    <content type="html"><![CDATA[<p>1）dubbo可在META-INF/dubbo/文件夹下实现需要扩展的接口文件，文件名为接口的全限定名，文件中的内容为“name=接口实现类的全限定名”</p><p>2）ExtensionLoader在加载扩展点时，会通过setter方法自动加载依赖的扩展点</p>]]></content>
+    
+    <summary type="html">
+    
+      Dubbo作为现在比较流行的分布式框架，它的架构体系：服务提供者、服务消费者、注册中心和监控中心组成...
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Hello, Hexo</title>
+    <link href="https://kingking0803.github.io/2018/03/26/Hello-Hexo/"/>
+    <id>https://kingking0803.github.io/2018/03/26/Hello-Hexo/</id>
+    <published>2018-03-26T13:51:49.000Z</published>
+    <updated>2018-03-26T13:56:32.481Z</updated>
+    
+    <content type="html"><![CDATA[<p>欢迎使用hexo！</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;欢迎使用hexo！&lt;/p&gt;
+
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+</feed>

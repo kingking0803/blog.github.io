@@ -8,13 +8,15 @@
   <meta name="description" content="Dubbo作为现在比较流行的分布式框架，它的架构体系：服务提供者、服务消费者、注册中心和监控中心组成...">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Dubbo分布式服务框架解析">
-<meta property="og:url" content="https://kingking0803.github.io/2018/03/27/dubbo知识点/index.html">
+<meta property="og:url" content="https://kingking0803.github.io/2018/03/27/dubbo分布式服务框架/index.html">
 <meta property="og:site_name" content="kingking&#39;s blog">
 <meta property="og:description" content="Dubbo作为现在比较流行的分布式框架，它的架构体系：服务提供者、服务消费者、注册中心和监控中心组成...">
-<meta property="og:updated_time" content="2018-03-28T03:28:56.885Z">
+<meta property="og:image" content="https://kingking0803.github.io/2018/03/27/dubbo分布式服务框架/$res/%E6%9E%B6%E6%9E%84.png">
+<meta property="og:updated_time" content="2018-03-30T03:23:28.325Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Dubbo分布式服务框架解析">
 <meta name="twitter:description" content="Dubbo作为现在比较流行的分布式框架，它的架构体系：服务提供者、服务消费者、注册中心和监控中心组成...">
+<meta name="twitter:image" content="https://kingking0803.github.io/2018/03/27/dubbo分布式服务框架/$res/%E6%9E%B6%E6%9E%84.png">
   
     <link rel="alternative" href="/atom.xml" title="kingking&#39;s blog" type="application/atom+xml">
   
@@ -228,10 +230,10 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-dubbo知识点" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-dubbo分布式服务框架" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/blog.github.io/2018/03/27/dubbo知识点/" class="article-date">
+      <a href="/blog.github.io/2018/03/27/dubbo分布式服务框架/" class="article-date">
       <time datetime="2018-03-27T08:49:44.000Z" itemprop="datePublished">2018-03-27</time>
 </a>
     </div>
@@ -262,8 +264,37 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>1）dubbo可在META-INF/dubbo/文件夹下实现需要扩展的接口文件，文件名为接口的全限定名，文件中的内容为“name=接口实现类的全限定名”</p>
-<p>2）ExtensionLoader在加载扩展点时，会通过setter方法自动加载依赖的扩展点</p>
+        <h1 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h1><p><img src="$res/%E6%9E%B6%E6%9E%84.png" alt="架构"></p>
+<table>
+<thead>
+<tr>
+<th>节点</th>
+<th>角色说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Registry</td>
+<td>服务注册与发现的注册中心</td>
+</tr>
+<tr>
+<td>Provider</td>
+<td>服务的提供方</td>
+</tr>
+<tr>
+<td>Consumer</td>
+<td>服务的消费方</td>
+</tr>
+<tr>
+<td>Monitor</td>
+<td>监控中心</td>
+</tr>
+<tr>
+<td>Container</td>
+<td>运行容器</td>
+</tr>
+</tbody>
+</table>
 
       
       
@@ -273,13 +304,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/blog.github.io/2018/03/27/dubbo知识点/">Dubbo分布式服务框架解析</a></p>
+        <p><span>本文标题:</span><a href="/blog.github.io/2018/03/27/dubbo分布式服务框架/">Dubbo分布式服务框架解析</a></p>
         <p><span>文章作者:</span><a href="/blog.github.io/" title="访问 kingking 的个人博客">kingking</a></p>
         <p><span>发布时间:</span>2018年03月27日 - 16时49分</p>
-        <p><span>最后更新:</span>2018年03月28日 - 11时28分</p>
+        <p><span>最后更新:</span>2018年03月30日 - 11时23分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/blog.github.io/2018/03/27/dubbo知识点/" title="Dubbo分布式服务框架解析">https://kingking0803.github.io/2018/03/27/dubbo知识点/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://kingking0803.github.io/2018/03/27/dubbo知识点/　　作者: kingking" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/blog.github.io/2018/03/27/dubbo分布式服务框架/" title="Dubbo分布式服务框架解析">https://kingking0803.github.io/2018/03/27/dubbo分布式服务框架/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://kingking0803.github.io/2018/03/27/dubbo分布式服务框架/　　作者: kingking" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/blog.github.io/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -305,7 +336,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#架构"><span class="toc-number">1.</span> <span class="toc-text">架构</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
@@ -381,7 +412,7 @@
             </a>
         
     </div>
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog.github.io/2018/03/27/dubbo知识点/">Dubbo分布式服务框架解析</a></li><li class="post-list-item"><a class="post-list-link" href="/blog.github.io/2018/03/26/Hello-Hexo/">Hello, Hexo</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog.github.io/2018/03/27/dubbo分布式服务框架/">Dubbo分布式服务框架解析</a></li><li class="post-list-item"><a class="post-list-link" href="/blog.github.io/2018/03/26/Hello-Hexo/">Hello, Hexo</a></li></ul>
     <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
     <script>
         $(".post-list").addClass("toc-article");

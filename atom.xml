@@ -6,7 +6,7 @@
   <link href="/blog.github.io/atom.xml" rel="self"/>
   
   <link href="https://kingking0803.github.io/"/>
-  <updated>2018-03-30T08:58:37.920Z</updated>
+  <updated>2018-04-07T13:35:34.983Z</updated>
   <id>https://kingking0803.github.io/</id>
   
   <author>
@@ -15,6 +15,24 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>CAS单点登录</title>
+    <link href="https://kingking0803.github.io/2018/04/05/cas/"/>
+    <id>https://kingking0803.github.io/2018/04/05/cas/</id>
+    <published>2018-04-05T05:18:09.000Z</published>
+    <updated>2018-04-07T13:35:34.983Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>1、Tomcat8<br>2、JDK8<br>3、CAS Server：4.0.0（这个版本较老，可以用新的版本）<br>4、CAS Client：3.1.10（用maven引入）<br>5、Spring Boot项目</p><h2 id="创建证书"><a href="#创建证书" class="headerlink" title="创建证书"></a>创建证书</h2><p>1、用jdk自带的keytool生成证书：</p><blockquote><p>命令：keytool -genkey -alias wsria -keyalg RSA -keystore d:/keys/wsriakey</p></blockquote><p>在输入完密码后提示输入域名是我输入的是 sso.wsria.com，其实这个域名是不存在的，但是我为了演示所以虚拟了这个域名，技巧在于修改C:\Windows\System32\drivers\etc\hosts，添加内容如下：</p><p>127.0.0.1 sso.wsria.com</p><p>这样在访问sso.wsria.com的时候其实是访问的127.0.0.1也就是本机</p><p><strong>严重提醒</strong>：提示输入域名的时候<strong>不能</strong>输入<strong>IP地址</strong></p><h2 id="导出证书"><a href="#导出证书" class="headerlink" title="导出证书"></a>导出证书</h2><blockquote><p>命令：D:\keys&gt;keytool -export -file d:/keys/wsria.crt -alias wsria -keystore d:/keys/wsriakey</p></blockquote><h2 id="为客户端的JVM导入证书"><a href="#为客户端的JVM导入证书" class="headerlink" title="为客户端的JVM导入证书"></a>为客户端的JVM导入证书</h2><blockquote><p>命令：keytool -import -keystore D:\tools\jdk\1.6\jdk1.6.0_20\jre\lib\security\cacerts -file D:/keys/wsria.crt -alias wsria</p></blockquote><p><strong>特别说明</strong>:输入的keystore密码并不是刚才设置的证书密码，是默认密码changeit</p><h2 id="应用证书到Web服务器-Tomcat"><a href="#应用证书到Web服务器-Tomcat" class="headerlink" title="应用证书到Web服务器-Tomcat"></a>应用证书到Web服务器-Tomcat</h2><p>打开tomcat目录的conf/server.xml文件，开启如下注释，并设置keystoreFile、keystorePass修改结果如下：</p><blockquote><connector port="8443" protocol="HTTP/1.1" sslenabled="true" maxthreads="150" scheme="https" secure="true" clientauth="false" sslprotocol="TLS" keystorefile="D:/keys/wsriakey" keystorepass="wsria.com"></connector></blockquote><p>参数说明：</p><ul><li>keystoreFile：在第一步创建的key存放位置</li><li>keystorePass：创建证书时的密码</li></ul><p>好了，到此Tomcat的SSL启用完成，现在你可以启动tomcat试一下了，例如本教程输入地址：<a href="https://sso.wsria.com:8443/" target="_blank" rel="noopener">https://sso.wsria.com:8443/</a></p>]]></content>
+    
+    <summary type="html">
+    
+      搭建CAS单点登录服务器（SSO）...
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Dubbo分布式服务框架解析</title>

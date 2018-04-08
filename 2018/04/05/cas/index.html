@@ -11,7 +11,7 @@
 <meta property="og:url" content="https://kingking0803.github.io/2018/04/05/cas/index.html">
 <meta property="og:site_name" content="kingking&#39;s blog">
 <meta property="og:description" content="搭建CAS单点登录服务器（SSO）...">
-<meta property="og:updated_time" content="2018-04-07T13:35:34.983Z">
+<meta property="og:updated_time" content="2018-04-08T01:06:51.532Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CAS单点登录">
 <meta name="twitter:description" content="搭建CAS单点登录服务器（SSO）...">
@@ -281,14 +281,26 @@
 <p><strong>特别说明</strong>:输入的keystore密码并不是刚才设置的证书密码，是默认密码changeit</p>
 <h2 id="应用证书到Web服务器-Tomcat"><a href="#应用证书到Web服务器-Tomcat" class="headerlink" title="应用证书到Web服务器-Tomcat"></a>应用证书到Web服务器-Tomcat</h2><p>打开tomcat目录的conf/server.xml文件，开启如下注释，并设置keystoreFile、keystorePass修改结果如下：</p>
 <blockquote>
-<connector port="8443" protocol="HTTP/1.1" sslenabled="true" maxthreads="150" scheme="https" secure="true" clientauth="false" sslprotocol="TLS" keystorefile="D:/keys/wsriakey" keystorepass="wsria.com">
-</connector></blockquote>
+<p>&lt;Connector port=”8443” protocol=”HTTP/1.1” SSLEnabled=”true”  maxThreads=”150” scheme=”https” secure=”true”  clientAuth=”false” sslProtocol=”TLS”  keystoreFile=”D:/keys/wsriakey” keystorePass=”wsria.com”  /&gt;</p>
+</blockquote>
 <p>参数说明：</p>
 <ul>
 <li>keystoreFile：在第一步创建的key存放位置</li>
 <li>keystorePass：创建证书时的密码</li>
 </ul>
 <p>好了，到此Tomcat的SSL启用完成，现在你可以启动tomcat试一下了，例如本教程输入地址：<a href="https://sso.wsria.com:8443/" target="_blank" rel="noopener">https://sso.wsria.com:8443/</a></p>
+<h2 id="为客户端系统依赖CAS"><a href="#为客户端系统依赖CAS" class="headerlink" title="为客户端系统依赖CAS"></a>为客户端系统依赖CAS</h2><p>maven加入如下依赖</p>
+<blockquote>
+<p>&lt;dependency&gt;<br>   &lt;groupId&gt;org.jasig.cas&lt;/groupId&gt;<br>   &lt;version&gt;3.1.10&lt;/version&gt;<br>   &lt;artifactId&gt;cas-client-core&lt;/artifactId&gt;<br>&lt;/dependency&gt;</p>
+</blockquote>
+<p>application.yml配置信息</p>
+<blockquote>
+<p>spring:<br>    cas:<br>     sign-out-filters: /logout<br>      auth-filters: /<em><br>      validate-filters: /</em><br>      request-wrapper-filters: /<em><br>      assertion-filters: /</em><br>      cas-server-login-url: <a href="https://sso.wsria.com:8443/cas/login" target="_blank" rel="noopener">https://sso.wsria.com:8443/cas/login</a><br>      cas-server-url-prefix: <a href="https://sso.wsria.com:8443/cas" target="_blank" rel="noopener">https://sso.wsria.com:8443/cas</a><br>      redirect-after-validation: true<br>      use-session: true<br>      server-name: <a href="http://localhost:8087" target="_blank" rel="noopener">http://localhost:8087</a><br>      validation-type: CAS</p>
+</blockquote>
+<p>SpringCasAutoConfig.java用于获取配置信息</p>
+<blockquote>
+<p>@Component @ConfigurationProperties(prefix = “spring.cas”)<br>public class SpringCasAutoConfig {<br>    static final String separator = “,”;<br>    private String validateFilters;<br>    private String signOutFilters;<br>    private String authFilters;<br>    private String assertionFilters;<br>    private String requestWrapperFilters;<br>    private String casServerUrlPrefix;<br>    private String casServerLoginUrl;<br>    private String serverName;<br>    private boolean useSession = true;<br>    private boolean redirectAfterValidation = true;<br>    public List<string> getValidateFilters() {<br>        return Arrays.asList(validateFilters.split(separator));<br>    }<br>    public void setValidateFilters(String validateFilters) {<br>        this.validateFilters = validateFilters;<br>    }<br>    public List<string> getSignOutFilters() {<br>        return Arrays.asList(signOutFilters.split(separator));<br>    }<br>    public void setSignOutFilters(String signOutFilters) {<br>        this.signOutFilters = signOutFilters;<br>    }<br>    public List<string> getAuthFilters() {<br>        return Arrays.asList(authFilters.split(separator));<br>    }<br>    public void setAuthFilters(String authFilters) {<br>        this.authFilters = authFilters;<br>    }<br>    public List<string> getAssertionFilters() {<br>        return Arrays.asList(assertionFilters.split(separator));<br>    }<br>    public void setAssertionFilters(String assertionFilters) {<br>        this.assertionFilters = assertionFilters;<br>    }<br>    public List<string> getRequestWrapperFilters() {<br>        return Arrays.asList(requestWrapperFilters.split(separator));<br>    }<br>    public void setRequestWrapperFilters(String requestWrapperFilters) {<br>        this.requestWrapperFilters = requestWrapperFilters;<br>    }<br>    public String getCasServerUrlPrefix() {<br>        return casServerUrlPrefix;<br>    }<br>    public void setCasServerUrlPrefix(String casServerUrlPrefix) {<br>        this.casServerUrlPrefix = casServerUrlPrefix;<br>    }<br>    public String getCasServerLoginUrl() {<br>        return casServerLoginUrl;<br>    }<br>    public void setCasServerLoginUrl(String casServerLoginUrl) {<br>        this.casServerLoginUrl = casServerLoginUrl;<br>    }<br>    public String getServerName() {<br>        return serverName;<br>    }<br>    public void setServerName(String serverName) {<br>        this.serverName = serverName;<br>    }<br>    public boolean isRedirectAfterValidation() {<br>        return redirectAfterValidation;<br>    }<br>    public void setRedirectAfterValidation(boolean redirectAfterValidation) {<br>        this.redirectAfterValidation = redirectAfterValidation;<br>    }<br>    public boolean isUseSession() {<br>        return useSession;<br>    }<br>    public void setUseSession(boolean useSession) {<br>        this.useSession = useSession;<br>    }<br>}</string></string></string></string></string></p>
+</blockquote>
 
       
       
@@ -301,7 +313,7 @@
         <p><span>本文标题:</span><a href="/blog.github.io/2018/04/05/cas/">CAS单点登录</a></p>
         <p><span>文章作者:</span><a href="/blog.github.io/" title="访问 kingking 的个人博客">kingking</a></p>
         <p><span>发布时间:</span>2018年04月05日 - 13时18分</p>
-        <p><span>最后更新:</span>2018年04月07日 - 21时35分</p>
+        <p><span>最后更新:</span>2018年04月08日 - 09时06分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/blog.github.io/2018/04/05/cas/" title="CAS单点登录">https://kingking0803.github.io/2018/04/05/cas/</a>
             <span class="copy-path" data-clipboard-text="原文: https://kingking0803.github.io/2018/04/05/cas/　　作者: kingking" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -330,7 +342,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#环境"><span class="toc-number">1.</span> <span class="toc-text">环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建证书"><span class="toc-number">2.</span> <span class="toc-text">创建证书</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#导出证书"><span class="toc-number">3.</span> <span class="toc-text">导出证书</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为客户端的JVM导入证书"><span class="toc-number">4.</span> <span class="toc-text">为客户端的JVM导入证书</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#应用证书到Web服务器-Tomcat"><span class="toc-number">5.</span> <span class="toc-text">应用证书到Web服务器-Tomcat</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#环境"><span class="toc-number">1.</span> <span class="toc-text">环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建证书"><span class="toc-number">2.</span> <span class="toc-text">创建证书</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#导出证书"><span class="toc-number">3.</span> <span class="toc-text">导出证书</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为客户端的JVM导入证书"><span class="toc-number">4.</span> <span class="toc-text">为客户端的JVM导入证书</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#应用证书到Web服务器-Tomcat"><span class="toc-number">5.</span> <span class="toc-text">应用证书到Web服务器-Tomcat</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为客户端系统依赖CAS"><span class="toc-number">6.</span> <span class="toc-text">为客户端系统依赖CAS</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 

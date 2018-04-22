@@ -6,7 +6,7 @@
   <link href="/blog.github.io/atom.xml" rel="self"/>
   
   <link href="https://kingking0803.github.io/"/>
-  <updated>2018-04-22T08:54:49.888Z</updated>
+  <updated>2018-04-22T09:36:22.915Z</updated>
   <id>https://kingking0803.github.io/</id>
   
   <author>
@@ -21,9 +21,13 @@
     <link href="https://kingking0803.github.io/2018/04/22/LINUX-environment/"/>
     <id>https://kingking0803.github.io/2018/04/22/LINUX-environment/</id>
     <published>2018-04-22T08:54:49.000Z</published>
-    <updated>2018-04-22T08:54:49.888Z</updated>
+    <updated>2018-04-22T09:36:22.915Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="安装jdk"><a href="#安装jdk" class="headerlink" title="安装jdk"></a>安装jdk</h2><p>1、检查版本</p><blockquote><p>java -version</p></blockquote><p>2、创建jdk存放位置</p><blockquote><p>mkdir /usr/lib/jvm</p></blockquote><p>3、下载jdk安装包到指定文件夹下，进入该文件夹，解压文件到指定文件夹下</p><blockquote><p>tar -zxvf jdk-8u171-linux-x64.tar.gz -C /usr/lib/jvm</p></blockquote><p>4、设置环境变量</p><blockquote><p>vim /etc/profile</p></blockquote><p>在最前面加上如下代码：</p><blockquote><p>export JAVA_HOME=/usr/lib/jvm/jdk1.8.0_171<br>export JRE_HOME=${JAVA_HOME}/jre<br>export CLASSPATH=.:\${JAVA_HOME}/lib:\${JRE_HOME}/lib<br>export PATH=\${JAVA_HOME}/bin:\$PATH</p></blockquote><p>5、执行profile文件，即可以使得配置文件立即生效，不用重启电脑</p><blockquote><p>source /etc/profile</p></blockquote><p>6、检测jdk安装包</p><blockquote><p>rpm -qa | grep java</p></blockquote><p>7、卸载jdk</p><blockquote><p>rpm -e –nodeps 安装包的名字</p></blockquote><p>或者</p><blockquote><p>yum remove 安装包的名字（这里可以用通配符匹配）</p></blockquote>]]></content>
     
     <summary type="html">
+    
+      在Linux系统中安装环境变量
     
     </summary>
     

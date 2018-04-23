@@ -5,16 +5,16 @@
   
   <title>LINUX environment | kingking&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="再Linux系统中安装环境变量">
+  <meta name="description" content="在Linux系统中安装环境变量">
 <meta property="og:type" content="article">
 <meta property="og:title" content="LINUX environment">
 <meta property="og:url" content="https://kingking0803.github.io/2018/04/22/LINUX-environment/index.html">
 <meta property="og:site_name" content="kingking&#39;s blog">
-<meta property="og:description" content="再Linux系统中安装环境变量">
-<meta property="og:updated_time" content="2018-04-22T14:03:45.797Z">
+<meta property="og:description" content="在Linux系统中安装环境变量">
+<meta property="og:updated_time" content="2018-04-23T13:59:11.366Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LINUX environment">
-<meta name="twitter:description" content="再Linux系统中安装环境变量">
+<meta name="twitter:description" content="在Linux系统中安装环境变量">
   
     <link rel="alternative" href="/atom.xml" title="kingking&#39;s blog" type="application/atom+xml">
   
@@ -282,7 +282,7 @@
 </blockquote>
 <p>在最前面加上如下代码：</p>
 <blockquote>
-<p>export JAVA_HOME=/usr/lib/jvm/jdk1.8.0_171<br>export JRE_HOME=${JAVA_HOME}/jre<br>export CLASSPATH=.:\${JAVA_HOME}/lib:\${JRE_HOME}/lib<br>export PATH=\${JAVA_HOME}/bin:\$PATH</p>
+<p>export JAVA_HOME=/usr/lib/jvm/jdk1.8.0_171<br>export JRE_HOME=${JAVA_HOME}/jre<br>export CLASSPATH=.:\${JAVA_HOME}/lib:${JRE_HOME}/lib<br>export PATH=\${JAVA_HOME}/bin:$PATH</p>
 </blockquote>
 <p>5、执行profile文件，即可以使得配置文件立即生效，不用重启电脑</p>
 <blockquote>
@@ -316,6 +316,10 @@
 <blockquote>
 <p>groupadd mysql<br>useradd -r -g mysql mysql</p>
 </blockquote>
+<p>设置权限</p>
+<blockquote>
+<p>cd /usr/local/<br>chown -R mysql mysql/<br>chgrp -R mysql mysql/</p>
+</blockquote>
 <p>4、在MySQL目录下添加data目录</p>
 <blockquote>
 <p>mkdir data</p>
@@ -325,6 +329,10 @@
 <p>chown -R mysql mysql/<br>chgrp -R mysql mysql/</p>
 </blockquote>
 <p>6、安装和初始化数据库</p>
+<blockquote>
+<p>./mysqld –initialize –user=mysql –basedir=/usr/local/mysql/ –datadir=/usr/local/mysql/data/</p>
+</blockquote>
+<p>如果报错[ERROR] Can’t find error-message file ‘/usr/local/mysql/–datadir=/usr/local/mysql/data/share/errmsg.sys’.<br>则用如下命令再重试一遍</p>
 <blockquote>
 <p>./mysqld –initialize –user=mysql –basedir=/usr/local/mysql/ –datadir=/usr/local/mysql/data/ –lc_message_dir=/usr/local/mysql/share –lc_message=en_US</p>
 </blockquote>
@@ -336,6 +344,31 @@
 <p>8、修改密码</p>
 <blockquote>
 <p>alter user ‘root‘@’localhost’ identified by ‘newpassword’;</p>
+</blockquote>
+<p>9、将mysqld服务加入开机自启动项<br>将{mysql}/ support-files/mysql.server 拷贝为/etc/init.d/mysql并设置运行权限，这样就可以使用service mysql命令启动/停止服务，<br>否则就只能使用{mysql}/bin/mysqld_safe &amp;命令来启动服务<br>还需要把mysql.server中basedir的相关路径，改为自定义的路径，默认路径是/usr/local/mysql</p>
+<blockquote>
+<p>cp mysql.server /etc/init.d/mysql<br>chmod +x /etc/init.d/mysql<br>chkconfig –add mysql</p>
+</blockquote>
+<p>10、启动服务</p>
+<blockquote>
+<p>service mysql start</p>
+</blockquote>
+<h2 id="搭建web项目"><a href="#搭建web项目" class="headerlink" title="搭建web项目"></a>搭建web项目</h2><p>1、下载tomcat，将其拷贝到home文件夹下，启动tomcat</p>
+<blockquote>
+<p>./catalina.sh run</p>
+</blockquote>
+<p>2、停止tomcat</p>
+<blockquote>
+<p>./catalina.sh stop</p>
+</blockquote>
+<p><em>还有其它的启动方式，这种启动方式可以在控制台输出日志</em></p>
+<p>3、如果想在本机访问虚拟机的项目，可以配置网络未NET，然后访问虚拟机的IP地址，如果还是访问不了可能是虚拟机防火墙限制了该端口，可用如下命令开启</p>
+<blockquote>
+<p>firewall-cmd –zone=public –add-port=8081/tcp –permanent</p>
+</blockquote>
+<p>然后重启防火墙</p>
+<blockquote>
+<p>firewall-cmd –reload</p>
 </blockquote>
 
       
@@ -349,7 +382,7 @@
         <p><span>本文标题:</span><a href="/blog.github.io/2018/04/22/LINUX-environment/">LINUX environment</a></p>
         <p><span>文章作者:</span><a href="/blog.github.io/" title="访问 kingking 的个人博客">kingking</a></p>
         <p><span>发布时间:</span>2018年04月22日 - 16时54分</p>
-        <p><span>最后更新:</span>2018年04月22日 - 22时03分</p>
+        <p><span>最后更新:</span>2018年04月23日 - 21时59分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/blog.github.io/2018/04/22/LINUX-environment/" title="LINUX environment">https://kingking0803.github.io/2018/04/22/LINUX-environment/</a>
             <span class="copy-path" data-clipboard-text="原文: https://kingking0803.github.io/2018/04/22/LINUX-environment/　　作者: kingking" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -378,7 +411,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装jdk"><span class="toc-number">1.</span> <span class="toc-text">安装jdk</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装mysql"><span class="toc-number">2.</span> <span class="toc-text">安装mysql</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装jdk"><span class="toc-number">1.</span> <span class="toc-text">安装jdk</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装mysql"><span class="toc-number">2.</span> <span class="toc-text">安装mysql</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#搭建web项目"><span class="toc-number">3.</span> <span class="toc-text">搭建web项目</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 

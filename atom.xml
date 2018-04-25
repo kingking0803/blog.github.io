@@ -6,7 +6,7 @@
   <link href="/blog.github.io/atom.xml" rel="self"/>
   
   <link href="https://kingking0803.github.io/"/>
-  <updated>2018-04-23T13:59:11.366Z</updated>
+  <updated>2018-04-25T10:22:51.176Z</updated>
   <id>https://kingking0803.github.io/</id>
   
   <author>
@@ -15,6 +15,24 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>LINUX ftp</title>
+    <link href="https://kingking0803.github.io/2018/04/25/Linux-ftp/"/>
+    <id>https://kingking0803.github.io/2018/04/25/Linux-ftp/</id>
+    <published>2018-04-25T10:02:25.000Z</published>
+    <updated>2018-04-25T10:22:51.176Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="VSFTPD安装"><a href="#VSFTPD安装" class="headerlink" title="VSFTPD安装"></a>VSFTPD安装</h2><p>首先查看是否安装了vsftpd</p><blockquote><p>rpm -q vsftpd</p></blockquote><p>如果没有安装则执行以下命令，进行安装</p><blockquote><p>yum  install -y  vsftpd</p></blockquote><p>查看vsftpd服务状态</p><blockquote><p>service vsftpd status</p></blockquote><h2 id="配置vsftpd-conf"><a href="#配置vsftpd-conf" class="headerlink" title="配置vsftpd.conf"></a>配置vsftpd.conf</h2><p>首先备份配置文件</p><blockquote><p>cp /etc/vsftpd/vsftpd.conf /etc/vsftpd/vsftpd.conf.bak</p></blockquote><p>编辑该配置文件</p><blockquote><p>vim /etc/vsftpd/vsftpd.conf</p></blockquote><p>修改并添加如下内容</p><blockquote><p>anonymous_enable=NO  # 禁用匿名登录<br>ascii_upload_enable=YES<br>ascii_download_enable=YES<br>chroot_local_user=YES  # 启用限定用户在其主目录下</p></blockquote><p>#之后添加下列内容到vsftpd.conf末尾<br>use_localtime=YES<br>listen_port=21<br>chroot_local_user=YES<br>idle_session_timeout=300<br>guest_enable=YES<br>guest_username=vsftpd<br>user_config_dir=/etc/vsftpd/vconf<br>data_connection_timeout=1<br>virtual_use_local_privs=YES<br>pasv_min_port=10060<br>pasv_max_port=10090<br>accept_timeout=5<br>connect_timeout=1</p><h2 id="建立用户"><a href="#建立用户" class="headerlink" title="建立用户"></a>建立用户</h2><p>第一行用户名，第二行密码，不能使用root为用户名</p><blockquote><p>vim /etc/vsftpd/virtusers</p></blockquote><p>添加内容</p><blockquote><p>test<br>123456<br>su<br>123456</p></blockquote><h2 id="生成数据文件"><a href="#生成数据文件" class="headerlink" title="生成数据文件"></a>生成数据文件</h2><p>首先你需要确定你是否有db_load这个命令</p><blockquote><p>rpm -q db</p></blockquote><p>安装之前先查询一下</p><blockquote><p>yum search db4</p></blockquote><p>安装</p><blockquote><p>yum install -y  compat-db47.x86_64  (以你的机器为准)</p></blockquote><p>生成db文件（每次添加新的用户都要重新生成一遍这个文件，因为这个文件相当于是用来校验用户账号密码是否正确）</p><blockquote><p>db_load -T -t hash -f /etc/vsftpd/virtusers /etc/vsftpd/virtusers.db</p></blockquote><p>设定PAM验证文件，并指定对虚拟用户数据库文件进行读取</p><blockquote><p>chmod 600 /etc/vsftpd/virtuser.db</p></blockquote><h2 id="修改-etc-pam-d-vsftpd文件"><a href="#修改-etc-pam-d-vsftpd文件" class="headerlink" title="修改/etc/pam.d/vsftpd文件"></a>修改/etc/pam.d/vsftpd文件</h2><p>修改前先备份</p><blockquote><p>cp /etc/pam.d/vsftpd /etc/pam.d/vsftpd.bak</p></blockquote><p>将里面所有东西都注释，并添加如下内容（如果系统为32位，上面lib64改为lib）</p><blockquote><p>auth sufficient /lib64/security/pam_userdb.so db=/etc/vsftpd/virtusers<br>account sufficient /lib64/security/pam_userdb.so db=/etc/vsftpd/virtusers</p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      在Linux系统中部署FTP文件系统，采用vsftpd服务
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>LINUX environment</title>
